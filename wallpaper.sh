@@ -4,38 +4,44 @@ if [[ $1 == "" ]]; then
     echo "no wallpaper engine  was chosen, choose from kde and nitrogen"
     exit
 fi
+filePath=$(readlink -f "$0")
+path=$(dirname "$filePath")
 categories=()
 
-mapfile -t categories < ./categories.txt
+mapfile -t categories <  $path/categories.txt
 
 randCat=$((RANDOM % ${#categories[@]}))
 chosenCat=${categories[$randCat]}
 
-rm -f ./chosenCat.txt
-rm -f ./alreadySaved.txt
+rm -f $path/chosenCat.txt
+rm -f $path/alreadySaved.txt
 
 # wget  https://source.unsplash.com/3840x2160/?$chosenCat -O /home/rodude123/Pictures/wallpapers/current.png
 
 if [[ $((1 + RANDOM % 100)) -le 50  ]]; then
 	# notify-send	$chosenCat-$((1 + RANDOM % $count))
 
-	if [[ -d /home/rodude123/Pictures/wallpapers/$chosenCat ]]; then
-		count=`ls /home/rodude123/Pictures/wallpapers/$chosenCat | wc -l`
+	if [[ -d "/home/rodude123/Pictures/wallpapers/$chosenCat" ]]; then
+		count=`ls "/home/rodude123/Pictures/wallpapers/$chosenCat" | wc -l`
 		count=$((count+1))
-		cp -f /home/rodude123/Pictures/wallpapers/$chosenCat/$chosenCat-$((1 + RANDOM % $count)).png /home/rodude123/Pictures/wallpapers/current.png
+		cp -f "/home/rodude123/Pictures/wallpapers/$chosenCat/$chosenCat-$((1 + RANDOM % $count)).png" /home/rodude123/Pictures/wallpapers/current.png
 		notify-send "Wallpaper taken form saved wallpapers"
-		echo "already saved" > ./alreadySaved.txt
+		echo "Wallpaper taken form saved wallpapers"
+		echo "already saved" > $path/alreadySaved.txt
 	else
-		chosenCata=${chosenCat// /%20%}
-		wget  https://source.unsplash.com/3840x2160/?$chosenCata -O /home/rodude123/Pictures/wallpapers/current.png
-		rm -f ./saved.txt
 		notify-send "Wallpaper doesn't exist so downloaded wallpaper instead"
+		echo "Wallpaper doesn't exist so downloaded wallpaper instead"
+		chosenCata=${chosenCat// /%20%}
+		wget -q "https://source.unsplash.com/3840x2160/?$chosenCata" -O /home/rodude123/Pictures/wallpapers/current.png & > /dev/null
+		rm -f $path/saved.txt
 	fi
 
 else
+    notify-send "Wallpaper doesn't exist so downloaded wallpaper instead"
+    echo "Wallpaper doesn't exist so downloaded wallpaper instead"
 	chosenCata=${chosenCat// /%20%}
-	wget  https://source.unsplash.com/3840x2160/?$chosenCata -O /home/rodude123/Pictures/wallpapers/current.png
-	rm -f ./saved.txt
+	wget -q "https://source.unsplash.com/3840x2160/?$chosenCata" -O /home/rodude123/Pictures/wallpapers/current.png & > /dev/null
+	rm -f $path/saved.txt
 fi
 
 if [[ $1 == "kde" ]]; then
@@ -61,8 +67,9 @@ if [[ $1 == "kde" ]]; then
                 d.writeConfig("Image", "file:///home/rodude123/Pictures/wallpapers/current.png");
         }'
 elif [[ $1 == "nitrogen" ]]; then
-    nitrogen --restore
+    sleep 2 
 fi
-echo $chosenCat > ./chosenCat.txt
+echo $chosenCat > $path/chosenCat.txt
 sleep 5
 notify-send "Wallpaper changed, new category: $chosenCat"
+echo "Wallpaper changed, new category: $chosenCat"
