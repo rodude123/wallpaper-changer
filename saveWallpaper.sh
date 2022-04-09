@@ -1,9 +1,9 @@
 #!/bin/bash
-chosenCat=`cat /home/rodude123/wallpaperChanger/chosenCat.txt`
+chosenCat=`cat ./chosenCat.txt`
 
 echo $chosenCat
 
-if [[ ! -f /home/rodude123/wallpaperChanger/saved.txt ]]; then
+if [[ ! -f ./saved.txt ]]; then
 	mkdir -p "/home/rodude123/Pictures/wallpapers/$chosenCat"
 
 	count=`ls "/home/rodude123/Pictures/wallpapers/$chosenCat" | wc -l`
@@ -11,9 +11,9 @@ if [[ ! -f /home/rodude123/wallpaperChanger/saved.txt ]]; then
 
 	mv /home/rodude123/Pictures/wallpapers/current.png "/home/rodude123/Pictures/wallpapers/$chosenCat/$chosenCat-$count.png"
 
-	echo "saved" > /home/rodude123/wallpaperChanger/saved.txt
+	echo "saved" > ./saved.txt
 	notify-send "Wallpaper saved"
-elif [[ -f /home/rodude123/wallpaperChanger/alreadySaved.txt ]]; then
+elif [[ -f ./alreadySaved.txt ]]; then
 	notify-send "Wallpaper taken from stored wallpapers so cannot save again."
 else
 	notify-send "Wallpaper is already saved"
