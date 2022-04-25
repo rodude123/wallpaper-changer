@@ -1,19 +1,19 @@
 #!/bin/bash
-chosenCat=`cat ./chosenCat.txt`
-
 filePath=$(readlink -f "$0")
 path=$(dirname "$filePath")
 
-echo $chosenCat
+chosenCat= cat "$path/chosenCat.txt"
 
-if [[ ! -f ./saved.txt ]]; then
+# echo $chosenCat
+
+if [[ ! -f $path/saved.txt ]]; then
 	mkdir -p "/home/rodude123/Pictures/wallpapers/$chosenCat"
 
 	count=`ls "/home/rodude123/Pictures/wallpapers/$chosenCat" | wc -l`
 	count=$((count+1))
 
-	mv /home/rodude123/Pictures/wallpapers/current.png "/home/rodude123/Pictures/wallpapers/$chosenCat/$chosenCat-$count.png"
-
+	cp -f /home/rodude123/Pictures/wallpapers/current.png "/home/rodude123/Pictures/wallpapers/$chosenCat/$chosenCat-$count.png"
+    
 	echo "saved" > $path/saved.txt
 	notify-send "Wallpaper saved"
 	echo "Wallpaper saved"

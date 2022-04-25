@@ -1,5 +1,7 @@
 #!/bin/bash
 # export $(dbus-launch)
+export DISPLAY=":0"
+
 if [[ $1 == "" ]]; then
     echo "no wallpaper engine  was chosen, choose from kde and nitrogen"
     exit
@@ -67,7 +69,7 @@ if [[ $1 == "kde" ]]; then
                 d.writeConfig("Image", "file:///home/rodude123/Pictures/wallpapers/current.png");
         }'
 elif [[ $1 == "nitrogen" ]]; then
-    sleep 2 
+    sleep 2 && nitrogen --restore
 fi
 echo $chosenCat > $path/chosenCat.txt
 sleep 5
