@@ -53,7 +53,7 @@ if [[ $1 == "kde" ]]; then
                 d.currentConfigGroup = Array("Wallpaper",
                                             "org.kde.image",
                                             "General");
-                d.writeConfig("Image", "file://$HOME/Pictures/wallpapers/background.jpg");
+                d.writeConfig("Image", "file://'$HOME'/Pictures/wallpapers/background.jpg");
         }'
 
         dbus-send --session --dest=org.kde.plasmashell --type=method_call /PlasmaShell org.kde.PlasmaShell.evaluateScript 'string:
@@ -64,7 +64,7 @@ if [[ $1 == "kde" ]]; then
                 d.currentConfigGroup = Array("Wallpaper",
                                             "org.kde.image",
                                             "General");
-                d.writeConfig("Image", "file://$HOME/Pictures/wallpapers/current.png");
+                d.writeConfig("Image", "file://'$HOME'/Pictures/wallpapers/current.png");
         }'
 elif [[ $1 == "nitrogen" ]]; then
     sleep 2 && nitrogen --restore
