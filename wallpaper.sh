@@ -18,15 +18,13 @@ chosenCat=${categories[$randCat]}
 rm -f $path/chosenCat.txt
 rm -f $path/alreadySaved.txt
 
-# wget  https://source.unsplash.com/3840x2160/?$chosenCat -O /home/$USER/Pictures/wallpapers/current.png
 
 if [[ $((1 + RANDOM % 100)) -le 50  ]]; then
-	# notify-send	$chosenCat-$((1 + RANDOM % $count))
 
-	if [[ -d "/home/$USER/Pictures/wallpapers/$chosenCat" ]]; then
-		count=`ls "/home/$USER/Pictures/wallpapers/$chosenCat" | wc -l`
+	if [[ -d "$HOME/Pictures/wallpapers/$chosenCat" ]]; then
+		count=`ls "$HOME/Pictures/wallpapers/$chosenCat" | wc -l`
 		count=$((count+1))
-		cp -f "/home/$USER/Pictures/wallpapers/$chosenCat/$chosenCat-$((1 + RANDOM % $count)).png" /home/$USER/Pictures/wallpapers/current.png
+		cp -f "$HOME/Pictures/wallpapers/$chosenCat/$chosenCat-$((1 + RANDOM % $count)).png" $HOME/Pictures/wallpapers/current.png
 		notify-send "Wallpaper taken form saved wallpapers"
 		echo "Wallpaper taken form saved wallpapers"
 		echo "already saved" > $path/alreadySaved.txt
@@ -34,7 +32,7 @@ if [[ $((1 + RANDOM % 100)) -le 50  ]]; then
 		notify-send "Wallpaper doesn't exist so downloaded wallpaper instead"
 		echo "Wallpaper doesn't exist so downloaded wallpaper instead"
 		chosenCata=${chosenCat// /%20%}
-		wget -q "https://source.unsplash.com/3840x2160/?$chosenCata" -O /home/$USER/Pictures/wallpapers/current.png & > /dev/null
+		wget -q "https://source.unsplash.com/3840x2160/?$chosenCata" -O $HOME/Pictures/wallpapers/current.png & > /dev/null
 		rm -f $path/saved.txt
 	fi
 
@@ -42,7 +40,7 @@ else
     notify-send "Wallpaper doesn't exist so downloaded wallpaper instead"
     echo "Wallpaper doesn't exist so downloaded wallpaper instead"
 	chosenCata=${chosenCat// /%20%}
-	wget -q "https://source.unsplash.com/3840x2160/?$chosenCata" -O /home/$USER/Pictures/wallpapers/current.png & > /dev/null
+	wget -q "https://source.unsplash.com/3840x2160/?$chosenCata" -O $HOME/Pictures/wallpapers/current.png & > /dev/null
 	rm -f $path/saved.txt
 fi
 
@@ -55,7 +53,7 @@ if [[ $1 == "kde" ]]; then
                 d.currentConfigGroup = Array("Wallpaper",
                                             "org.kde.image",
                                             "General");
-                d.writeConfig("Image", "file:///home/$USER/Pictures/wallpapers/background.jpg");
+                d.writeConfig("Image", "file://$HOME/Pictures/wallpapers/background.jpg");
         }'
 
         dbus-send --session --dest=org.kde.plasmashell --type=method_call /PlasmaShell org.kde.PlasmaShell.evaluateScript 'string:
@@ -66,7 +64,7 @@ if [[ $1 == "kde" ]]; then
                 d.currentConfigGroup = Array("Wallpaper",
                                             "org.kde.image",
                                             "General");
-                d.writeConfig("Image", "file:///home/$USER/Pictures/wallpapers/current.png");
+                d.writeConfig("Image", "file://$HOME/Pictures/wallpapers/current.png");
         }'
 elif [[ $1 == "nitrogen" ]]; then
     sleep 2 && nitrogen --restore
