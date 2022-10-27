@@ -12,12 +12,15 @@ categories=()
 
 mapfile -t categories <  $path/categories.txt
 
+clientID=$(head -n 1 $path/clientID.txt)
+
 randCat=$((RANDOM % ${#categories[@]}))
 chosenCat=${categories[$randCat]}
 
 rm -f $path/chosenCat.txt
 rm -f $path/alreadySaved.txt
 
+rm -f $HOME/Pictures/wallpapers/current.png
 
 if [[ $((1 + RANDOM % 100)) -le 50  ]]; then
 
@@ -32,7 +35,8 @@ if [[ $((1 + RANDOM % 100)) -le 50  ]]; then
 		notify-send "Wallpaper doesn't exist so downloaded wallpaper instead"
 		echo "Wallpaper doesn't exist so downloaded wallpaper instead"
 		chosenCata=${chosenCat// /%20%}
-		wget -q "https://source.unsplash.com/3840x2160/?$chosenCata" -O $HOME/Pictures/wallpapers/current.png & > /dev/null
+		url=$(curl "https://api.unsplash.com/photos/random?query=$chosenCata&orientation=landscape&client_id=$clientID" | jq '. | .urls.raw' | sed 's/"//g')
+		wget $url -O $HOME/Pictures/wallpapers/current.png & > /dev/null
 		rm -f $path/saved.txt
 	fi
 
@@ -40,12 +44,15 @@ else
     notify-send "Wallpaper doesn't exist so downloaded wallpaper instead"
     echo "Wallpaper doesn't exist so downloaded wallpaper instead"
 	chosenCata=${chosenCat// /%20%}
-	wget -q "https://source.unsplash.com/3840x2160/?$chosenCata" -O $HOME/Pictures/wallpapers/current.png & > /dev/null
+	url=$(curl "https://api.unsplash.com/photos/random?query=$chosenCata&orientation=landscape&client_id=$clientID" | jq '. | .urls.raw' | sed 's/"//g')
+	wget $url -O $HOME/Pictures/wallpapers/current.png & > /dev/null
 	rm -f $path/saved.txt
 fi
 
+sleep 4
+
 if [[ $1 == "kde" ]]; then
-    dbus-send --session --dest=org.kde.plasmashell --type=method_call /PlasmaShell org.kde.PlasmaShell.evaluateScript 'string:
+		dbus-send --session --dest=org.kde.plasmashell --type=method_call /PlasmaShell org.kde.PlasmaShell.evaluateScript 'string:
         var Desktops = desktops();                                                                                                                       
         for (i=0;i<Desktops.length;i++) {
                 d = Desktops[i];
@@ -53,7 +60,7 @@ if [[ $1 == "kde" ]]; then
                 d.currentConfigGroup = Array("Wallpaper",
                                             "org.kde.image",
                                             "General");
-                d.writeConfig("Image", "file://'$HOME'/Pictures/wallpapers/background.jpg");
+                d.writeConfig("Image", "file:///usr/share/wallpapers/Canopee/contents/images/3840x2160.png");
         }'
 
         dbus-send --session --dest=org.kde.plasmashell --type=method_call /PlasmaShell org.kde.PlasmaShell.evaluateScript 'string:
@@ -70,6 +77,6 @@ elif [[ $1 == "nitrogen" ]]; then
     sleep 2 && nitrogen --restore
 fi
 echo $chosenCat > $path/chosenCat.txt
-sleep 5
+sleep 2
 notify-send "Wallpaper changed, new category: $chosenCat"
 echo "Wallpaper changed, new category: $chosenCat"

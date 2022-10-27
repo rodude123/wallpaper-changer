@@ -6,7 +6,13 @@ if [[ $1 == "" ]]; then
     exit
 fi
 
+if [[ $2 == "" ]]; then
+	echo "Client ID not supplied, to obtain a client ID visit https://unsplash.com/documentation#creating-a-developer-account"
+	exit
+fi
+
 echo -e "#!/bin/bash\n$PWD/wallpaper.sh $1" > cw
+echo -e $2 > clientID.txt
 echo -e "#!/bin/bash\n$PWD/saveWallpaper.sh" > sw
 
 chmod +x cw sw
