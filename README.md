@@ -3,7 +3,7 @@ This is a set of scripts to change your wallpaper and save it to your pictures d
 
 ## init.sh
 This script makes the wallpapers directory in your users pictures folder, then creates the cw and sw scripts which allow you to run them globally.
-init.sh takes 2 paramenters the environment, and client ID. So far KDE and nitrogen are supported more will be supported soon. If the init.sh script fails please create the file clientID.txt in the same directory as the scripts to allow you to use the scipts. 
+init.sh takes 2 paramenters the environment, and client ID. So far KDE, nitrogen and xfce are supported more will be supported soon. If the init.sh script fails please create the file clientID.txt in the same directory as the scripts to allow you to use the scipts. 
 
 ## wallpaper.sh
 This script randomly chooses to download a wallpaper or chose one from your local list of wallpapers. If downloading a wallper is chosen it will download a wallpaper and set it. If choosing a wallpaper from your local list is chosen then it will try and find a wallpaper in the chosen category's directory, if one doesn't exist it will download one instead and set it.
