@@ -75,7 +75,11 @@ if [[ $1 == "kde" ]]; then
         }'
 elif [[ $1 == "nitrogen" ]]; then
     sleep 2 && nitrogen --restore
+
+elif [[ $1 == "xfce" ]]; then
+    xfconf-query -c xfce4-desktop -p /usr/share/backgrounds/xfce/park.jpg -s $HOME/Pictures/wallpapers/current.png
 fi
+
 echo $chosenCat > $path/chosenCat.txt
 sleep 2
 notify-send "Wallpaper changed, new category: $chosenCat"

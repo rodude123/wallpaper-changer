@@ -1,8 +1,8 @@
 #!/bin/bash
 mkdir -p $HOME/Pictures/wallpapers
 
-if [[ $1 == "" ]]; then
-    echo "no wallpaper engine  was chosen, choose from kde and nitrogen"
+if [[ $1 != "kde" || $1 != "nitrogen" || $1 != "xfce" ]]; then
+    echo "no wallpaper engine  was chosen, choose from kde, nitrogen and xfce"
     exit
 fi
 
