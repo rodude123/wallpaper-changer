@@ -1,5 +1,5 @@
 # wallpaper-changer
-This is a set of scripts to change your wallpaper and save it to your pictures directory so that it can be recycled back as one of the pictures. Since unsplash is deprecating the open source.unsplash.com api, this script has be updated for the new api. To use the updated script an client ID is required, follow https://unsplash.com/documentation#creating-a-developer-account to get one
+This is a set of scripts to change your wallpaper and save it to your pictures directory so that it can be recycled back as one of the pictures. Since unsplash is deprecating the open source.unsplash.com api, this script has be updated for the new api. To use the updated script an client ID is required, follow https://unsplash.com/documentation#creating-a-developer-account to get one. Make sure `curl` and `jq` are installed for proper use
 
 ## init.sh
 This script makes the wallpapers directory in your users pictures folder, then creates the cw and sw scripts which allow you to run them globally.
@@ -12,4 +12,7 @@ This script randomly chooses to download a wallpaper or chose one from your loca
 This script saves the current wallpaper to the chosen category's directory.
 
 ## usage
-Run `./init.sh` with the parameters first as you may get errors when saving, or create the wallpapers directory in the pictures directory. You may have to supply a root password for the script to mv the cw and sw scripts into the bin directory.
+Run `./init.sh` with the parameters first as you may get errors when saving, or create the wallpapers directory in the pictures directory. You may have to supply a root password for the script to mv the cw and sw scripts into the bin directory. For the first use, it's advisable to run in a terminal to see if there are any packages that need to be installed or if you get any errors that should be reported.
+
+## errors
+If you encounter any errors, please make an issue and I'll take a look at it and see what I can do to fix it. 
